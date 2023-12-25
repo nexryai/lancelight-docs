@@ -1,5 +1,5 @@
 ---
-title: Join Nexkey
+title: LanceLight Firewall
 layout: hextra-home
 ---
 
