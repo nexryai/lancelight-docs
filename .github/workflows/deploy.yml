@@ -1,0 +1,37 @@
+name: Deploy documents
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    name: Publish contents
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.111.3'
+
+      - name: build with hugo
+        run: |
+          hugo --minify
+          ls -al
+
+      - uses: cloudflare/pages-action@1
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          projectName: lance
+          directory: ./public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
