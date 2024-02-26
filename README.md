@@ -1,1 +1,2 @@
 # lancelight-docs
+hoge
